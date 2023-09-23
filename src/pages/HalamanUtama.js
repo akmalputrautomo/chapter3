@@ -57,6 +57,7 @@ export const HalamanUtama = () => {
       Check: false,
     },
   ]);
+  const [originalData, setOriginalData] = useState(Data);
 
   // renderlist
   const renderList = () => {
@@ -106,9 +107,14 @@ export const HalamanUtama = () => {
   };
 
   // search
+  const resetData = () => {
+    setData(originalData);
+  };
   useEffect(() => {
-    renderList();
-  }, []);
+    if (setDataSearch === "") {
+      resetData();
+    }
+  }, [setDataSearch, resetData]);
 
   const PencarianData = (e) => {
     let cari = Data.filter((value) => value.task.toLowerCase().includes(DataSearch));
@@ -126,6 +132,9 @@ export const HalamanUtama = () => {
             <input
               onChange={(e) => {
                 setDataSearch(e.target.value);
+                if (e.target.value === "") {
+                  resetData();
+                }
               }}
               placeholder="Search Todo"
               className="w-full text-black"
